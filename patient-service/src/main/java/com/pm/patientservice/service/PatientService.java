@@ -15,10 +15,12 @@ import java.util.UUID;
 
 @Service
 public class PatientService {
-    private PatientRepository patientRepository;
+    private final PatientRepository patientRepository;
+    private final BillingServiceGrpcClient billingServiceGrpcClient;
 
-    public PatientService(PatientRepository patientRepository) {
+    public PatientService(PatientRepository patientRepository, BillingServiceGrpcClient billingServiceGrpcClient) {
         this.patientRepository = patientRepository;
+        this.billingServiceGrpcClient = billingServiceGrpcClient;
     }
 
     public List<PatientResponseDTO> getPatients() {
@@ -26,13 +28,13 @@ public class PatientService {
 
         List<PatientResponseDTO> patientResponseDTOs = patients.stream().map(PatientMapper::toDTO).toList();
 
-        return patients.stream().map(PatientMapper::toDTO).toList();
+        return patientResponseDTOs;
     }
 
     public PatientResponseDTO createPatient(PatientRequestDTO patientRequestDTO) {
         if(patientRepository.existsByEmail(patientRequestDTO.getEmail())) {
             throw new EmailAlreadyExistsException("A patient with this email " +
-                    "already exists " + patientRequestDTO.getEmail());
+                    "already exists" + patientRequestDTO.getEmail());
         }
 
         Patient newPatient = patientRepository.save(PatientMapper.toModel(patientRequestDTO));
