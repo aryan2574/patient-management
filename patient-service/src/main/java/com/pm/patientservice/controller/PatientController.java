@@ -32,7 +32,7 @@ public class PatientController {
     public ResponseEntity<PatientResponseDTO> createPatient(@Validated({Default.class, CreatePatientValidationGroup.class}) @RequestBody PatientRequestDTO patientRequestDTO) {
         PatientResponseDTO patientResponseDTO = patientService.createPatient(patientRequestDTO);
 
-        return ResponseEntity.ok().body(patientResponseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(patientResponseDTO);
     }
 
     @PutMapping("/{id}")
