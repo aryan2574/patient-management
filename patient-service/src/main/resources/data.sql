@@ -65,7 +65,7 @@ SELECT '123e4567-e89b-12d3-a456-426614174004',
                   FROM patient
                   WHERE id = '123e4567-e89b-12d3-a456-426614174004');
 
--- Insert well-known UUIDs for specific patients
+-- Insert additional well-known UUIDs for other specific patients
 INSERT INTO patient (id, name, email, address, date_of_birth, registered_date)
 SELECT '223e4567-e89b-12d3-a456-426614174005',
        'Michael Green',
