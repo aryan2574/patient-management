@@ -6,6 +6,7 @@ import com.pm.patientservice.exception.EmailAlreadyExistsException;
 import com.pm.patientservice.exception.PatientNotFoundException;
 import com.pm.patientservice.mapper.PatientMapper;
 import com.pm.patientservice.model.Patient;
+import com.pm.patientservice.grpc.BillingServiceGrpcClient;
 import com.pm.patientservice.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,8 @@ public class PatientService {
         }
 
         Patient newPatient = patientRepository.save(PatientMapper.toModel(patientRequestDTO));
+
+        billingServiceGrpcClient.createBillingAccount(newPatient.getId().toString(), newPatient.getName(), newPatient.getEmail());
 
         return PatientMapper.toDTO(newPatient);
     }
