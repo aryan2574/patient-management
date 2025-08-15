@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class AuthIntegrationTest {
+public class PatientIntegrationTest {
     @BeforeAll
-    static void setUp() {
+    static void setUp(){
         RestAssured.baseURI = "http://localhost:4004";
     }
 
     @Test
-    public void shouldReturnOkWithValidToken() {
+    public void shouldReturnPatientWithValidToken() {
         String loginPayload = """
                 {
                     "email": "testuser@test.com",
@@ -21,35 +21,22 @@ public class AuthIntegrationTest {
                 }
                 """;
 
-        Response response = given()
+        String token = given()
                 .contentType("application/json")
                 .body(loginPayload)
                 .when()
                 .post("/auth/login")
                 .then()
                 .statusCode(200)
-                .body("token", notNullValue())
                 .extract()
-                .response();
+                .jsonPath()
+                .get("token");
 
-        System.out.println("Generated Token: " + response.jsonPath().getString("token"));
-    }
-
-    @Test
-    public void shouldReturnUnauthorisedOnInvalidLogin() {
-        String loginPayload = """
-                {
-                    "email": "invalid_user@test.com",
-                    "password": "wrong_password"
-                }
-                """;
-
-        given()
-                .contentType("application/json")
-                .body(loginPayload)
+        given().header("Authorization", "Bearer " + token)
                 .when()
-                .post("/auth/login")
+                .get("/api/patients")
                 .then()
-                .statusCode(401);
+                .statusCode(200)
+                .body("patients", notNullValue());
     }
 }
