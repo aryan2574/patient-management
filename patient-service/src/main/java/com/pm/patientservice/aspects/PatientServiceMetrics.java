@@ -16,7 +16,7 @@ public class PatientServiceMetrics {
         this.meterRegistry = meterRegistry;
     }
 
-    @Around("execution(* com.pm.patientservice.service.PatientService.getPatients())")
+    @Around("execution(* com.pm.patientservice.service.PatientService.getPatients(int, int, String, String, String))")
     public Object monitorGetPatients(ProceedingJoinPoint joinPoint) throws Throwable {
         meterRegistry.counter("custom.redis.cache.miss", "cache", "patients").increment();
 
