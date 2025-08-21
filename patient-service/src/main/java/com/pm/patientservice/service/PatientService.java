@@ -36,7 +36,7 @@ public class PatientService {
     @Cacheable(
             value = "patients",
             key = "#page + '-' + #size + '-' + #sort + '-' + #sortField",
-            condition = "#searchValue = ''"
+            condition = "T(org.springframework.util.StringUtils).isEmpty(#searchValue)"
     )
     public PagedPatientResponseDTO getPatients(int page, int size, String sort, String sortField, String searchValue) {
         Pageable pageable = PageRequest.of(page - 1, size,
