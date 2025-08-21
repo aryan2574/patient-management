@@ -33,7 +33,7 @@ public class PatientIntegrationTest {
 
         for(int i = 0 ; i < total; i++) {
             Response response = RestAssured.given()
-                    .header("Authorisation", "Bearer" + token)
+                    .header("Authorization", "Bearer " + token)
                     .get("/api/patients");
 
             System.out.printf("Request %d -> Status: %d%n", i, response.statusCode());
