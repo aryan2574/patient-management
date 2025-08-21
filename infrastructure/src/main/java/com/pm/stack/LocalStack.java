@@ -84,7 +84,6 @@ public class LocalStack extends Stack {
                 null
         );
 
-        createApiGatewayService();
     }
 
     private Vpc createVpc() {
