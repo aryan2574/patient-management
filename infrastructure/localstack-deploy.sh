@@ -7,7 +7,7 @@ aws --endpoint-url=http://localhost:4566 cloudformation delete-stack \
 
 aws --endpoint-url=http://localhost:4566 cloudformation deploy \
     --stack-name patient-management \
-    -- template-file "/cdk.out/localstack.template.json"
+    --template-file "/cdk.out/localstack.template.json"
 
 aws --endpoint-url=http://localhost:4566 elbv2 describe-load-balancers \
     --query "LoadBalancers[0].DNSName" --output text
