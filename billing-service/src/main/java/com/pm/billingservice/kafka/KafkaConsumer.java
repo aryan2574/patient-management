@@ -23,7 +23,7 @@ public class KafkaConsumer {
                     billingAccountEvent.getEmail());
 
         } catch (InvalidProtocolBufferException e) {
-            log.error("Error parsing BillingAccountEvent {]", e.getMessage());
+            log.error("Error parsing BillingAccountEvent: {}", e.getMessage());
         }
     }
 }
