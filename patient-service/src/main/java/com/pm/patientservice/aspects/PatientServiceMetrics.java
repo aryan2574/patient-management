@@ -21,6 +21,16 @@ public class PatientServiceMetrics {
         meterRegistry.counter("custom.redis.cache.miss", "cache", "patients").increment();
 
         Object result = joinPoint.proceed();
+
+        // Assume result has isCacheHit() method
+        if (result instanceof com.pm.patientservice.model.PatientResponse) {
+            com.pm.patientservice.model.PatientResponse response = (com.pm.patientservice.model.PatientResponse) result;
+            if (!response.isCacheHit()) {
+                meterRegistry.counter("custom.redis.cache.miss", "cache", "patients").increment();
+            } else {
+                meterRegistry.counter("custom.redis.cache.hit", "cache", "patients").increment();
+            }
+        }
         return result;
     }
 }
