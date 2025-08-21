@@ -48,7 +48,7 @@ public class BillingServiceGrpcClient {
     }
 
     public BillingResponse billingFallback(String patientId, String name, String email, Throwable t) {
-        log.warn("[CIRCUIT BREAKER] : Billing Service is unavailable. Triggered" + "fallback: {}", t.getMessage());
+        log.warn("[CIRCUIT BREAKER]: Billing Service is unavailable. Triggered fallback: {}", t.getMessage());
 
         kafkaProducer.sendBillingAccountEvent(patientId, name, email);
 
